@@ -1,0 +1,32 @@
+/***************** 
+    TTHMainCore
+Author: Pie
+Setup custom styles 
+***********************/
+
+body {
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.nav {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background-color: rgb(255, 106, 0);
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+.nav a
+{
+    color: rgb(50,50,50);
+}
+h2 
+{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: rgb(200,200,200);
+}
