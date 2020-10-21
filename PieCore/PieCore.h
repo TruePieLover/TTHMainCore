@@ -22,10 +22,9 @@ static HWND g_hWnd;
 static TCHAR g_szPieWndTitle[MAD_STRING_SIZE] = _T("DesktopApp");
 static TCHAR g_szPieWndClass[MAD_STRING_SIZE] = _T("Windows Desktop Guided Tour Application");
 ATOM RegisterPieWindow(HINSTANCE hInstance); // Register our window
-BOOL InitAppInstance(HINSTANCE, int);
+BOOL InitAppInstance(HINSTANCE, int); // Initialize main app instance
 LRESULT CALLBACK PieWndProc(HWND, UINT, WPARAM, LPARAM); // Main app window procedure
 INT_PTR CALLBACK About(HWND, UINT, WPARAM, LPARAM);
-
 struct WindowStateData {
 
 };

@@ -10,11 +10,11 @@
 #ifndef PCH_H
 #define PCH_H
 
-
 #include "targetver.h"
 #include <windows.h>
 #include <stdlib.h>
 #include <string.h>
 #include <tchar.h>
 #include <assert.h>
+
 #endif //PCH_H

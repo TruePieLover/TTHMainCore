@@ -8,4 +8,5 @@
 
 #pragma once
 
+/* Include the highest available Windows platform available */
 #include <SDKDDKVer.h> // Define highest available Win platform

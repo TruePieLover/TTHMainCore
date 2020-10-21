@@ -11,17 +11,14 @@
 #include "framework.h"
 #include "PieCore.h"
 
-#ifdef USE_WIN32_SUBSYSTEM
-// Step 1) Essential Main Window Entry Functionalityn	
-//--------------------------------------------------
-#pragma region Essential Main Window Entry Functionality
 
-/* Main win app entry point */
+/* Main PieCore Win32 Desktop */
+#ifdef USE_WIN32_SUBSYSTEM
+#pragma region PieCore Win32 Desktop 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
 {
-	// Declare parameters not needed to be used 
-	UNREFERENCED_PARAMETER(hPrevInstance);
-	UNREFERENCED_PARAMETER(lpCmdLine);
+	UNREFERENCED_PARAMETER(hPrevInstance); 
+	UNREFERENCED_PARAMETER(lpCmdLine); 
 	LoadStringW(hInstance, IDS_APP_TITLE, g_szPieWndTitle, MAD_STRING_SIZE);
 	LoadStringW(hInstance, IDC_PIECORE, g_szPieWndClass, MAD_STRING_SIZE);
 	RegisterPieWindow(hInstance);
@@ -29,8 +26,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 	{
 		return FALSE;
 	}
-	// Handle window app state
-
 	MSG msg;
 	HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_PIECORE));
 	while (GetMessage(&msg, nullptr, 0, 0))
@@ -41,19 +36,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 			DispatchMessage(&msg);
 		}
 	}
-	int result = (int)msg.wParam; // Get success result from wParam 
+	int result = (int)msg.wParam; 
 	return result;
 }
-#pragma endregion
 
-
-// Step 2) Setup Window Helper Functions	
-//--------------------------------------------------
-#pragma region Setup Window Helper Functions
-
+// Define our window registration class	
 ATOM RegisterPieWindow(HINSTANCE hInstance) 
 {
-	WNDCLASSEXW pcwcex; // PieCore window class declare
+	WNDCLASSEXW pcwcex; 
 	pcwcex.cbSize = sizeof(WNDCLASSEX);
 	pcwcex.style = CS_HREDRAW | CS_VREDRAW;
 	pcwcex.lpfnWndProc = PieWndProc;
@@ -69,39 +59,24 @@ ATOM RegisterPieWindow(HINSTANCE hInstance)
 	return RegisterClassExW(&pcwcex);
 }
 
-
 BOOL InitAppInstance(HINSTANCE hInstance, int nCmdShow) 
 {
 	g_hInst = hInstance; // Store instance handle in our global variable
 	g_hWnd = CreateWindowW(g_szPieWndClass, g_szPieWndTitle, WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, ptrState); // Additional application data gives a reference to our window state ptr
-
 	if (!g_hWnd)
 	{
 		return FALSE;
 	}
-	
 	ShowWindow(g_hWnd, nCmdShow);
 	UpdateWindow(g_hWnd);
 	return TRUE;
 }
 
-
-#pragma endregion
-
-
-//	Step 3) Define our essential app procedures
-//--------------------------------------
-#pragma region Essential App Proc Definitions
-
-PAINTSTRUCT _psWnd; // Field to hold our paint window struct info
-HDC _hdcWnd; // Handle to the device contect were drawing to for window
-
-/* Main window proc */
+PAINTSTRUCT _psWnd; 
+HDC _hdcWnd; 
 LRESULT CALLBACK PieWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	
-	// Handle application sate
  	switch (message)
 	{
 	case WM_CREATE:
@@ -110,7 +85,6 @@ LRESULT CALLBACK PieWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 	}
 	case WM_COMMAND:
 	{
-		/* wmId1 handles menu bar selections */
 		int wmId1 = LOWORD(wParam);
 		switch (wmId1)
 		{
@@ -125,13 +99,6 @@ LRESULT CALLBACK PieWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 		}
 	}
 	break;
-
-	/* Paint the main window */
-	case WM_PAINT:
-	{
-		
-	}
-	break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
@@ -141,7 +108,6 @@ LRESULT CALLBACK PieWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 	return 0;
 }
 
-
 INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	UNREFERENCED_PARAMETER(lParam);
@@ -149,7 +115,6 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_INITDIALOG:
 		return (INT_PTR)TRUE;
-
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
 		{
@@ -163,13 +128,9 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 #pragma endregion
 #endif
 
-
-
-
-/* For our window console */
-#pragma region Console App Region
-
+/* PieCore Console Region */
 #ifdef USING_CONSOLE_SUBSYSTEM
+#pragma region Console App Region
 int main()
 {
 	std::cout << "Hello World!";
