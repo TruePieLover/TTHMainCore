@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -92,7 +92,6 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -166,7 +165,7 @@
     <ResourceCompile Include="PieCore.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Assets\about-info-img.bmp" />
+    <Image Include="about-info-img.bmp" />
     <Image Include="main-logo.ico">
       <DeploymentContent>true</DeploymentContent>
       <FileType>Resx</FileType>

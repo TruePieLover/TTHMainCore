@@ -8,24 +8,31 @@
 /////////////////////////////////////////////////////////
 
 #pragma once
-
-/* Setup main PieCore app definitions */
-
-// Define platform used, assume and init undefined until the check can determine and set otherwise
-#define WIN32_COMPATIBLE_PLATFORM false  
-#define CROSS_COMPATINLE_PLATFORM false
-#define UNDEFINED_PLATFORM true 
-/* Win32 compatible includes*/
-#if defined(WIN32) || (_WIN32) || (_WIN64) 
+#include "pch.h"
 #include "targetver.h"
-#define WIN32_LEAN_AND_MEAN // Exclude rarely used window features
-/* Important window platform includes */
-#include <windows.h>
-#include <stdlib.h>
-#include <malloc.h>
-#include <memory.h>
-#include <tchar.h>
+
+/* Define our compatible systems for app */
+#define WIN32_SYSTEM auto // For Win32 compatibler systems
+#define CONSOLE_SYSTEM auto // For c++ compatible console systems
+#define LINUX_SYSTEM auto // Linux only based systems
+#define SYSTEM_ERROR auto // Error 
+
+#if defined(WIN32) 
+#define WIN32_SYSTEM true
+#endif
+#if defined(__cplusplus)
+#define CONSOLE_SYSTEM true
+#include <iostream>
+#elif defined(__linux__)
+#define LINUX_SYSTEM true
 #else
-/* Not win32 compatible includes */
+#define SYSTEM ERROR "Error, no compatible system found"
 #endif
 
+#if(WIN32_SYSTEM)
+#define USE_WIN32_SUBSYSTEM
+#endif
+
+#if(CONSOLE_SYSTEM)
+#undef USING_CONSOLE_SUBSYSTEM
+#endif

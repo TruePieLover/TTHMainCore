@@ -7,13 +7,11 @@
 // PieCore.cpp: Main PieCore application source file 
 /////////////////////////////////////////////////////////
 
-
 #include "pch.h"
 #include "framework.h"
 #include "PieCore.h"
 
-
-
+#ifdef USE_WIN32_SUBSYSTEM
 // Step 1) Essential Main Window Entry Functionalityn	
 //--------------------------------------------------
 #pragma region Essential Main Window Entry Functionality
@@ -24,19 +22,15 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 	// Declare parameters not needed to be used 
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
-
-
 	LoadStringW(hInstance, IDS_APP_TITLE, g_szPieWndTitle, MAD_STRING_SIZE);
 	LoadStringW(hInstance, IDC_PIECORE, g_szPieWndClass, MAD_STRING_SIZE);
 	RegisterPieWindow(hInstance);
-
-	// Perform application initialization:
 	if (!InitAppInstance(hInstance, nCmdShow))
 	{
 		return FALSE;
 	}
+	// Handle window app state
 
-	// Main app message loop
 	MSG msg;
 	HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_PIECORE));
 	while (GetMessage(&msg, nullptr, 0, 0))
@@ -79,16 +73,19 @@ ATOM RegisterPieWindow(HINSTANCE hInstance)
 BOOL InitAppInstance(HINSTANCE hInstance, int nCmdShow) 
 {
 	g_hInst = hInstance; // Store instance handle in our global variable
-	HWND hWnd = CreateWindowW(g_szPieWndClass, g_szPieWndTitle, WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
-	if (!hWnd)
+	g_hWnd = CreateWindowW(g_szPieWndClass, g_szPieWndTitle, WS_OVERLAPPEDWINDOW,
+		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, ptrState); // Additional application data gives a reference to our window state ptr
+
+	if (!g_hWnd)
 	{
 		return FALSE;
 	}
-	ShowWindow(hWnd, nCmdShow);
-	UpdateWindow(hWnd);
+	
+	ShowWindow(g_hWnd, nCmdShow);
+	UpdateWindow(g_hWnd);
 	return TRUE;
 }
+
 
 #pragma endregion
 
@@ -103,32 +100,36 @@ HDC _hdcWnd; // Handle to the device contect were drawing to for window
 /* Main window proc */
 LRESULT CALLBACK PieWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-
-	switch (message)
+	
+	// Handle application sate
+ 	switch (message)
 	{
+	case WM_CREATE:
+	{
+		
+	}
 	case WM_COMMAND:
 	{
-		int wmId = LOWORD(wParam);
-		// Parse the menu selections:
-		switch (wmId)
+		/* wmId1 handles menu bar selections */
+		int wmId1 = LOWORD(wParam);
+		switch (wmId1)
 		{
 		case IDM_ABOUT:
 			DialogBox(g_hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
 			break;
 		case IDM_EXIT:
 			DestroyWindow(hWnd);
-			break;
+			break;	
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
 		}
 	}
 	break;
-	// The main window painting message (WM_PAINT is essential for paint and stylying our app 
+
+	/* Paint the main window */
 	case WM_PAINT:
 	{
-		PAINTSTRUCT ps;
-		HDC hdc = BeginPaint(hWnd, &ps);
-		EndPaint(hWnd, &ps);
+		
 	}
 	break;
 	case WM_DESTROY:
@@ -159,5 +160,22 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 	return (INT_PTR)FALSE;
 }
-
 #pragma endregion
+#endif
+
+
+
+
+/* For our window console */
+#pragma region Console App Region
+
+#ifdef USING_CONSOLE_SUBSYSTEM
+int main()
+{
+	std::cout << "Hello World!";
+	std::cin.get();
+	return 0;
+}
+#pragma endregion
+#endif
+
